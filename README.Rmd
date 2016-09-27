@@ -19,7 +19,7 @@ Other examples of implementations of function composition can be found in
 [`purrr`](https://CRAN.R-project.org/package=purrr) and 
 [`functional`](https://CRAN.R-project.org/package=functional) (and probably 
 others). `curry` sets itself apart in the manner it is used and in the functions
-it creates. `curry` uses the `%>>%` operator to perform currying and a curried
+it creates. `curry` uses the `%<%` operator to perform currying and a curried
 function retains named arguments for easier autocomplete.
 
 ## Example
@@ -27,10 +27,10 @@ function retains named arguments for easier autocomplete.
 ```{r}
 library(curry)
 
-list_with_5 <- list %>>% 5
+list_with_5 <- list %<% 5
 list_with_5(10)
 
-chained_curry <- pmin %>>% sample(10) %>>% sample(10)
+chained_curry <- pmin %<% sample(10) %<% sample(10)
 chained_curry()
 chained_curry(1:10)
 ```

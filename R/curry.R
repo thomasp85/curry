@@ -1,5 +1,5 @@
 #' @export
-`%>>%` <- function(fun, arg) {
+`%<%` <- function(fun, arg) {
     if (is.curried(fun)) {
         extend_curry(fun, arg)
     } else {

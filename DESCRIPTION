@@ -1,6 +1,6 @@
 Package: curry
 Type: Package
-Title: Function Composition With %>>%
+Title: Function Composition With %<%
 Version: 0.1.0
 Author: Thomas Lin Pedersen
 Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
