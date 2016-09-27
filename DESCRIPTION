@@ -1,0 +1,14 @@
+Package: curry
+Type: Package
+Title: Function Composition With %>>%
+Version: 0.1.0
+Author: Thomas Lin Pedersen
+Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
+Description: Currying is the process of partially calling a function, one
+    argument at a time. The curry package provides this functionality through
+    the %>>% operator which allows you to apply one argument at a time. Compared
+    to other implementations such a purrr::partial the %>>% operator composes
+    functions with named arguments, aiding in autocomplete etc.
+License: GPL (>=2)
+LazyData: TRUE
+RoxygenNote: 5.0.1
