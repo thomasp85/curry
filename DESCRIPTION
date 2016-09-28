@@ -1,14 +1,20 @@
 Package: curry
 Type: Package
-Title: Function Composition With %<%
+Title: Function Composition with %<%, %-<%, and %><%
 Version: 0.1.0
+Date: 2016-09-28
 Author: Thomas Lin Pedersen
 Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
-Description: Currying is the process of partially calling a function, one
-    argument at a time. The curry package provides this functionality through
-    the %>>% operator which allows you to apply one argument at a time. Compared
-    to other implementations such a purrr::partial the %<% operator composes
-    functions with named arguments, aiding in autocomplete etc.
+Description: Partial application is the process of reducing the arity of a
+    function by fixing one or more arguments, thus creating a new function
+    lacking the fixed arguments. The curry package provides three different ways
+    of performing partial function application by fixing arguments from either
+    end of the argument list (currying and tail currying) or by fixing multiple
+    named arguments (partial application). The curry package provides this
+    functionality through the %<%, %-<%, and %><% operators which allows for
+    a programming style comparable to modern functional languages. Compared
+    to other implementations such a purrr::partial the operators in curry
+    composes functions with named arguments, aiding in autocomplete etc.
 License: GPL (>=2)
 LazyData: TRUE
 RoxygenNote: 5.0.1
