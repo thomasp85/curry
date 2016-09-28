@@ -21,8 +21,11 @@ RoxygenNote: 5.0.1
 Collate:
     'utils.R'
     'curry.R'
+    'defaults.R'
     'partial.R'
     'scaffold.R'
     'tail_curry.R'
 URL: https://github.com/thomasp85/curry
 BugReports: https://github.com/thomasp85/curry/issues
+Imports:
+    utils

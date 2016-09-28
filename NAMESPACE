@@ -2,7 +2,10 @@
 
 export("%-<%")
 export("%<%")
+export("%<?%")
 export("%><%")
 export(curry)
 export(partial)
+export(set_defaults)
 export(tail_curry)
+importFrom(utils,modifyList)
