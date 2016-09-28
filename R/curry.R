@@ -1,64 +1,60 @@
-#' @export
-`%<%` <- function(fun, arg) {
-    if (is.curried(fun)) {
-        extend_curry(fun, arg)
-    } else {
-        curry(fun, arg)
-    }
-}
+#' @include utils.R
+NULL
 
-curry <- function(fun, arg) {
-    if (is.primitive(fun)) {
-        fmls <- formals(args(fun))
-    } else {
-        fmls <- formals(fun)
-    }
-    if (is.null(fmls)) {
-        stop(deparse(substitute(fun, parent.frame())), ' does not accept any parameters', call. = FALSE)
-    }
-    called_fmls <- stats::setNames(lapply(names(fmls), as.symbol), names(fmls))
-    if (names(called_fmls)[1] == '...') {
-        call <- as.call(c(substitute(fun, parent.frame()), list(arg), called_fmls))
-        if (is.primitive(fun)) {
-            fun <- function() {}
-        }
-        formals(fun) <- fmls
-        body(fun) <- call
-    } else {
-        call <- as.call(c(substitute(fun, parent.frame()), called_fmls))
-        applyArg <- bquote(.(argName) <- .(arg), as.environment(list(argName = called_fmls[[1]], arg = arg)))
-        if (is.primitive(fun)) {
-            fun <- function() {}
-        }
-        formals(fun) <- fmls[-1]
-        body(fun) <- bquote({
-            .(applyArg)
-            .(call)
-        }, as.environment(list(call = call, applyArg = applyArg)))
-    }
-    structure(fun, class = 'curried')
+#' Curry a function from the start
+#'
+#' The \code{curry} function and the \code{\%<\%} operator performs currying on
+#' a function by partially applying the first argument, returning a function
+#' that accepts all but the first arguments of the former function. If the first
+#' argument is \code{...} the curried argument will be interpreted as part of
+#' the ellipsis and the ellipsis will be retained in the returned function. It
+#' is thus possible to curry functions comtaining ellipis arguments to infinity
+#' (though not adviced).
+#'
+#' @note Multiple currying does not result in multiple nested calls, so while
+#' the first currying adds a layer around the curried function, potentially
+#' adding a very small performance hit, currying multiple times will not add to
+#' this effect.
+#'
+#' @param fun A function to be curried. Can be any function (normal,
+#' already curried, primitives).
+#'
+#' @param arg The value that should be applied to the first argument.
+#'
+#' @return A function with the same arguments as \code{fun} except for the
+#' first, unless the first is \code{...} in which case it will be retained.
+#'
+#' @family partials
+#'
+#' @export
+#'
+#' @name curry
+#'
+#' @examples
+#' # Equivalent to curry(`+`, 5)
+#' add_5 <- `+` %<% 5
+#' add_5(10)
+#'
+#' # ellipsis are retained when currying
+#' bind_5 <- cbind %<% 5
+#' bind_5(1:10)
+#'
+`%<%` <- function(fun, arg) {
+    fun <- as.scaffold(fun)
+    .curry(fun, arg)
 }
-is.curried <- function(f) inherits(f, 'curried')
-extend_curry <- function(fun, arg) {
-    fmls <- formals(fun)
-    if (is.null(fmls)) {
+#' @rdname curry
+#' @export
+curry <- `%<%`
+
+.curry <- function(fun, arg) {
+    args <- list(arg)
+    fmls_names <- names(formals(fun))
+    if (is.null(fmls_names)) {
         stop(deparse(substitute(fun, parent.frame())), ' does not accept any parameters', call. = FALSE)
     }
-    called_fmls <- stats::setNames(lapply(names(fmls), as.symbol), names(fmls))
-    call <- as.list(body(fun))
-    if (names(called_fmls)[1] == '...') {
-        if (call[[1]] == quote(`{`)) {
-            funCall <- as.list(call[[length(call)]])
-            call[[length(call)]] <- as.call(append(funCall, list(arg), which(names(funCall) == '...') - 1))
-        } else {
-            call <- append(call, list(arg), which(names(call) == '...') - 1)
-        }
-        body(fun) <- as.call(call)
-    } else {
-        applyArg <- bquote(.(argName) <- .(arg), as.environment(list(argName = called_fmls[[1]], arg = arg)))
-        call <- as.call(append(call, applyArg, length(call) - 1))
-        formals(fun) <- fmls[-1]
-        body(fun) <- call
+    if (fmls_names[1] != '...') {
+        names(args) <- fmls_names[1]
     }
-    structure(fun, class = 'curried')
+    .apply_args(fun, args)
 }

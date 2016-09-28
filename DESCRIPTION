@@ -12,3 +12,9 @@ Description: Currying is the process of partially calling a function, one
 License: GPL (>=2)
 LazyData: TRUE
 RoxygenNote: 5.0.1
+Collate:
+    'utils.R'
+    'curry.R'
+    'partial.R'
+    'scaffold.R'
+    'tail_curry.R'
