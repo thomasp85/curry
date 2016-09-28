@@ -3,7 +3,7 @@
 curry
 =====
 
-[![Travis-CI Build Status](https://travis-ci.org/thomasp85/curry.svg?branch=master)](https://travis-ci.org/thomasp85/curry) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/curry?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/curry) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/curry)](https://cran.r-project.org/package=curry) [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/curry)](http://cran.r-project.org/package=curry)
+[![Travis-CI Build Status](https://travis-ci.org/thomasp85/curry.svg?branch=master)](https://travis-ci.org/thomasp85/curry) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/curry?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/curry) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/curry)](https://CRAN.R-project.org/package=curry) [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/grand-total/curry)](https://CRAN.R-project.org/package=curry)
 
 `curry` is yet another attempt at providing a native currying/partial application mechanism in R. Other examples of implementations of this can be found in [`purrr`](https://CRAN.R-project.org/package=purrr) and [`functional`](https://CRAN.R-project.org/package=functional) (and probably others). `curry` sets itself apart in the manner it is used and in the functions it creates. `curry` is operator based and a partially applied function retains named arguments for easier autocomplete etc. `curry` provides three mechanisms for partial application: `%<%` (`curry()`), `%-<%` (`tail_curry()`), and `%><%` (`partial()`) - see the examples for the differences
 

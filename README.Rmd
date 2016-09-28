@@ -17,8 +17,8 @@ library(curry)
 
 [![Travis-CI Build Status](https://travis-ci.org/thomasp85/curry.svg?branch=master)](https://travis-ci.org/thomasp85/curry)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/curry?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/curry)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/curry)](https://cran.r-project.org/package=curry)
-[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/grand-total/curry)](http://cran.r-project.org/package=curry)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/curry)](https://CRAN.R-project.org/package=curry)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/grand-total/curry)](https://CRAN.R-project.org/package=curry)
 
 `curry` is yet another attempt at providing a native currying/partial 
 application mechanism in R. Other examples of implementations of this can be 
@@ -87,4 +87,3 @@ if (!require(devtools)) {
 }
 devtools::install_github('thomasp85/curry')
 ```
-
