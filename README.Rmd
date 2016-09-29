@@ -33,6 +33,7 @@ for partial application: `%<%` (`curry()`), `%-<%` (`tail_curry()`), and `%><%`
 
 ## Example
 
+### Currying
 Currying is the reduction of the arity of a function by fixing the first 
 argument, returning a new function lacking this.
 
@@ -46,6 +47,7 @@ bind_5 <- cbind %<% 5
 bind_5(1:10)
 ```
 
+### Tail currying
 Tail currying is just like currying except it reduces the arity of the function
 from the other end by fixing the last argument.
 
@@ -59,6 +61,7 @@ df <- no_factors(x = letters[1:5])
 class(df$x)
 ```
 
+### Partial function application
 When the argument you wish to fix is not in either end of the argument list it
 is necessary to use a more generalised approach. Using `%><%` (or `partial()`)
 it is possible to fix any (and multiple) arguments in a function using a list of
@@ -79,6 +82,7 @@ args(no_factors)
 args(dummy_lengths)
 ```
 
+### Real currying
 The above uses a very loose (incorrect) definition of currying. The correct
 definition is that currying a function returns a function taking a single 
 argument (the first from the original function). Calling a curried function will
@@ -86,7 +90,7 @@ return a new function accepting the second argument of the original function and
 so on. Once all arguments of the original function has been consumed it 
 evaluates the call and returns the result. Thus:
 
-```r
+```{r, eval=FALSE}
 # Correct currying
 foo(arg1)(arg2)(arg3)
 
@@ -99,7 +103,7 @@ containing `...` as the argument list will never be consumed. Still, it is
 available in `curry` using the `Curry()` function or the `%<!%` operator:
 
 ```{r}
-testfun <- function(x, y, z) {
+testfun <- function(x = 10, y, z) {
   x + y + z
 }
 curriedfun <- Curry(testfun)
@@ -112,6 +116,14 @@ testfun %<!% 1 %<!% 2 %<!% 3
 testfun %<!% 1 %<% 2 %<% 3
 ```
 
+As with the partial application functionality the strict currying retains
+argument names and defaults at each step of the currying sequence:
+
+```{r}
+args(curriedfun)
+```
+
+### Weak partial function application
 The last functionality provided by `curry` is a *"weak"* partial function 
 application in the sense that it sets (or changes) argument defaults. Thus, 
 compared to partial application it returns a function with the same arguments,
