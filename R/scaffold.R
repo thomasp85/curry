@@ -1,7 +1,7 @@
 #' @include utils.R
 NULL
 
-scaffold <- function(fun, from = parent.frame()) {
+scaffold <- function(fun, from = parent.frame(), name) {
     if (is.primitive(fun)) {
         fmls <- formals(args(fun))
     } else {
@@ -15,16 +15,16 @@ scaffold <- function(fun, from = parent.frame()) {
     body(new_fun) <- bquote({
         args <- arg_getter()
         do.call(.(fun), args)
-    }, list(fun = deparse(substitute(fun, from))))
+    }, list(fun = name))
+    parent.env(environment(new_fun)) <- list2env(list(arg_getter = arg_getter, has_args = has_args, curry_once = curry_once), parent = from)
     structure(new_fun, class = 'scaffold', arg_env = arg_env)
 }
 
 is.scaffold <- function(fun) inherits(fun, 'scaffold')
-as.scaffold <- function(fun) {
+as.scaffold <- function(fun, from = parent.frame(), name) {
     if (is.scaffold(fun)) {
         fun
     } else {
-        from <- parent.frame()
-        scaffold(fun, from)
+        scaffold(fun, from, name)
     }
 }

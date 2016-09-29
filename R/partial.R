@@ -36,7 +36,7 @@ NULL
 #'
 `%><%` <- function(fun, args) {
     if (is.curried(fun)) return (do.call(fun, args))
-    fun <- as.scaffold(fun)
+    fun <- as.scaffold(fun, parent.frame(), as.name(substitute(fun)))
     .partial(fun, args)
 }
 #' @rdname partial

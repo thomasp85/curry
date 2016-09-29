@@ -49,18 +49,18 @@ NULL
 #' testfun %<!% 1 %<% 2 %<% 3
 #'
 `%<!%` <- function(fun, arg) {
-    fun <- as.curried(fun)
+    fun <- as.curried(fun, parent.frame(), as.name(substitute(fun)))
     fun(arg)
 }
 
 #' @rdname strict_curry
 #' @export
 Curry <- function(fun) {
-    as.curried(fun)
+    as.curried(fun, parent.frame(), as.name(substitute(fun)))
 }
 
-make_curry <- function(fun, from = parent.frame()) {
-    if (!is.scaffold(fun)) fun <- scaffold(fun, from)
+make_curry <- function(fun, from = parent.frame(), name) {
+    if (!is.scaffold(fun)) fun <- scaffold(fun, from, name)
 
     fmls <- formals(fun)
     if ('...' %in% names(fmls)) {
@@ -80,12 +80,11 @@ make_curry <- function(fun, from = parent.frame()) {
 }
 
 is.curried <- function(fun) inherits(fun, 'curried')
-as.curried <- function(fun) {
+as.curried <- function(fun, from = parent.frame(), name) {
     if (is.curried(fun)) {
         fun
     } else {
-        from <- parent.frame()
-        make_curry(fun, from)
+        make_curry(fun, from, name)
     }
 }
 has_args <- function() {

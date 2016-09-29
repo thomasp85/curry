@@ -41,7 +41,7 @@ NULL
 #'
 `%<%` <- function(fun, arg) {
     if (is.curried(fun)) return (fun(arg))
-    fun <- as.scaffold(fun)
+    fun <- as.scaffold(fun, parent.frame(), as.name(substitute(fun)))
     .curry(fun, arg)
 }
 #' @rdname curry

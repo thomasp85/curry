@@ -30,7 +30,7 @@ NULL
 #'
 set_defaults <- function(fun, defaults) {
     if (!is.curried(fun)) {
-        fun <- as.scaffold(fun)
+        fun <- as.scaffold(fun, parent.frame(), as.name(substitute(fun)))
     }
     fun_class <- class(fun)
     arg_env <- copy_env(attr(fun, 'arg_env'))
