@@ -70,10 +70,66 @@ args(dummy_lengths)
 #> NULL
 ```
 
+The above uses a very loose (incorrect) definition of currying. The correct definition is that currying a function returns a function taking a single argument (the first from the original function). Calling a curried function will return a new function accepting the second argument of the original function and so on. Once all arguments of the original function has been consumed it evaluates the call and returns the result. Thus:
+
+``` r
+# Correct currying
+foo(arg1)(arg2)(arg3)
+
+# Incorrect currying
+foo(arg1)(arg2, arg3)
+```
+
+True currying is less useful in R as it does not play nice with function containing `...` as the argument list will never be consumed. Still, it is available in `curry` using the `Curry()` function or the `%<!%` operator:
+
+``` r
+testfun <- function(x, y, z) {
+  x + y + z
+}
+curriedfun <- Curry(testfun)
+curriedfun(1)(2)(3)
+#> [1] 6
+
+# Using the operator
+testfun %<!% 1 %<!% 2 %<!% 3
+#> [1] 6
+
+# The strict operator is only required for the first call
+testfun %<!% 1 %<% 2 %<% 3
+#> [1] 6
+```
+
+The last functionality provided by `curry` is a *"weak"* partial function application in the sense that it sets (or changes) argument defaults. Thus, compared to partial application it returns a function with the same arguments, but if the defaulted arguments are ignored it will be equivalent to a partial application. Defaults can be set or changed using the `set_defaults()` function or the `%<?%` operator:
+
+``` r
+testfun <- function(x = 1, y = 2, z = 3) {
+  x + y + z
+}
+testfun()
+#> [1] 6
+testfun2 <- testfun %<?% list(y = 10)
+testfun3 <- testfun %><% list(y = 10)
+testfun2()
+#> [1] 14
+testfun3()
+#> [1] 14
+
+testfun2(y = 20)
+#> [1] 24
+testfun3(y = 20)
+#> Error in testfun3(y = 20): unused argument (y = 20)
+```
+
 Installation
 ------------
 
-`curry` is still a work in progress but can be installed through devtools:
+`curry` can be installed from CRAN:
+
+``` r
+install.packages('curry')
+```
+
+or GitHub for the latest version:
 
 ``` r
 if (!require(devtools)) {

@@ -41,6 +41,7 @@ NULL
 #' no_factors(x = letters[1:5])
 #'
 `%-<%` <- function(fun, arg) {
+    if (is.curried(fun)) return (fun(arg))
     fun <- as.scaffold(fun)
     .tail_curry(fun, arg)
 }

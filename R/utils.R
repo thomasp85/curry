@@ -1,6 +1,6 @@
 .apply_args <- function(fun, args, last = FALSE) {
     fmls <- formals(fun)
-    arg_env <- attr(fun, 'arg_env')
+    arg_env <- copy_env(attr(fun, 'arg_env'))
     formals(fun) <- fmls[!names(fmls) %in% names(args)]
     if (last) {
         assign('args_end', append(args, arg_env$args_end), envir = arg_env)
@@ -11,11 +11,15 @@
 }
 
 is_missing_arg <- function(x) identical(x, quote(expr = ))
-getArgs <- function(added_env) {
-    function() {
-        env <- parent.frame()
-        args <- names(formals(sys.function(sys.parent(1))))
+arg_getter <- function() {
+    env <- parent.frame()
+    fun <- sys.function(sys.parent(1))
+    args <- names(formals(fun))
+    arg_env <- attr(fun, 'arg_env')
 
+    if (is.null(args)) {
+        vals <- list()
+    } else {
         vals <- mget(args, envir = env)
         ellipsis <- names(vals) == '...'
         if (any(ellipsis)) {
@@ -23,7 +27,8 @@ getArgs <- function(added_env) {
             vals[ellipsis] <- NULL
         }
         vals <- vals[!vapply(vals, is_missing_arg, logical(1))]
-
-        c(added_env$args, vals, added_env$args_end)
     }
+
+    c(arg_env$args, vals, arg_env$args_end)
 }
+copy_env <- function(env) list2env(as.list(env), parent = parent.env(env))

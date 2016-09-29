@@ -40,6 +40,7 @@ NULL
 #' bind_5(1:10)
 #'
 `%<%` <- function(fun, arg) {
+    if (is.curried(fun)) return (fun(arg))
     fun <- as.scaffold(fun)
     .curry(fun, arg)
 }

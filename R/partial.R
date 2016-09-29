@@ -35,6 +35,7 @@ NULL
 #' dummy_lengths(test_list)
 #'
 `%><%` <- function(fun, args) {
+    if (is.curried(fun)) return (do.call(fun, args))
     fun <- as.scaffold(fun)
     .partial(fun, args)
 }

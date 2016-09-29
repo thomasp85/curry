@@ -11,12 +11,11 @@ scaffold <- function(fun, from = parent.frame()) {
     arg_env <- new.env(parent = emptyenv())
     assign('args', list(), envir = arg_env)
     assign('args_end', list(), envir = arg_env)
-    arg_getter <- getArgs(arg_env)
     formals(new_fun) <- fmls
     body(new_fun) <- bquote({
         args <- arg_getter()
         do.call(.(fun), args)
-    }, list(fun = substitute(fun, from)))
+    }, list(fun = deparse(substitute(fun, from))))
     structure(new_fun, class = 'scaffold', arg_env = arg_env)
 }
 
